@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="com.iwax.film.util.BigDecimalUtil"/>
+        <import type="com.iwax.film.util.StringUtil"/>
+        <import type="android.view.View"/>
+        <!--
+        <variable
+            name="movie"
+            type="com.iwax.film.models.Movie"/>-->
+        <variable
+            name="movieView"
+            type="com.iwax.film.MovieViewModel"/>
+
+        <variable
+            name="iMainActivity"
+            type="com.iwax.film.IMainActivity"/>
+
+    </data>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/White">
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/progress_bar"
+            android:layout_centerInParent="true"
+            android:visibility="@{movieView.imageVisibility ? View.GONE : View.VISIBLE }"/>
+
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:background="@color/White"
+            android:id="@+id/container_view"
+            android:visibility="@{movieView.imageVisibility ? View.VISIBLE : View.INVISIBLE }">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:textColor="@color/DarkGrey"
+                    android:text="@{movieView.movie.getNumberRatingsString()}"
+                    android:id="@+id/num_ratings"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"/>
+
+
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?attr/ratingBarStyleSmall"
+                    android:theme="@style/RatingBar"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:numStars="5"
+                    android:rating="@{BigDecimalUtil.getFloat(movieView.movie.rating)}"
+                    android:id="@+id/rating"
+                    android:isIndicator="true"
+                    android:layout_toLeftOf="@+id/num_ratings"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp">
+
+
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/image"
+                    app:imageResource="@{movieView.movie.poster}"
+                    app:requestListener="@{movieView.CustomRequestListener}"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/movie_title"
+                    android:textColor="@color/Black"
+                    android:text="@{movieView.movie.title}"
+                    android:textSize="13sp"/>
+
+                <ImageView
+                    android:layout_width="14sp"
+                    android:layout_height="14sp"
+                    android:src="@drawable/ic_calendar_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/red2"
+                    android:text="@{movieView.movie.release_date}"
+                    android:id="@+id/release_date"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/DarkGrey"
+                    android:text="Genres : "
+                    android:id="@+id/movie_genres"
+                    android:layout_marginLeft="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="7dp">
+
+
+
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?attr/ratingBarStyleSmall"
+                    android:theme="@style/RatingBar"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:numStars="5"
+                    android:rating="@{BigDecimalUtil.getFloat(movieView.movie.rating)}"
+                    android:id="@+id/movie_rating"
+                    android:isIndicator="false"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:textColor="@color/DarkGrey"
+                    android:text="@{movieView.movie.getNumberRatingsString()}"
+                    android:id="@+id/movie_num_ratings"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@drawable/grey_rounded_button"
+                android:layout_marginTop="13dp"
+                android:id="@+id/like_button"
+                android:onClick="@{() -> iMainActivity.sendMovieRating(movieView.movie)}">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/Black"
+                    android:text="Send"
+                    android:id="@+id/like"/>
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_toRightOf="@id/like"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"/>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:layout_marginTop="13dp"
+                android:id="@+id/add_to_cart">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/Black"
+                    android:text="@{movieView.movie.description}"
+                    android:id="@+id/text_overview"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"/>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
